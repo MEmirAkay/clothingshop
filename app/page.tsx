@@ -1,113 +1,177 @@
-import Image from 'next/image'
+"use client"
+import Image, { StaticImageData } from 'next/image'
+import Brand from '../public/emirbrand.png'
+import { IoIosSearch } from 'react-icons/io'
+import { IoBagOutline } from 'react-icons/io5'
+import { AiOutlineUser, AiFillStar, AiOutlineStar, AiOutlineLoading } from 'react-icons/ai'
+import { Dropdown } from 'react-bootstrap'
+import clothes from '@/public/clothes/clothes'
+import { useState, useEffect } from 'react'
+
+function FilledStar(star: number) {
+  var arr = []
+
+  for (let index = 0; index < star; index++) {
+    arr.push(<AiFillStar />)
+  }
+
+  return arr
+}
+
+function EmptyStar(star: number) {
+
+  var arr = []
+
+  for (let index = 0; index < star; index++) {
+    arr.push(<AiOutlineStar />)
+  }
+
+  return arr
+}
+
+
+function Stars(star: number) {
+  return (
+    <div className='flex flex-row w-full'>
+      {
+        FilledStar(star)
+      }
+      {
+        EmptyStar(5 - star)
+      }
+
+    </div>
+  )
+
+}
+
 
 export default function Home() {
+
+  const [itemFilter, setItemFilter] = useState("")
+
+  const [displayedItems, setDisplayedItem] = useState<{
+    id: number,
+    title: string,
+    price: string,
+    star: number,
+    starCount: number,
+    images: StaticImageData[],
+  }[]>([])
+
+  useEffect(() => {
+    setDisplayedItem(clothes)
+  }, [])
+
+  useEffect(() => {
+
+    if (itemFilter != "") {
+
+      const display = clothes.filter((item, index) =>
+        item.title.toLowerCase().includes(itemFilter.toLowerCase())
+      )
+      setDisplayedItem(display)
+    } else if (itemFilter == "") {
+      setDisplayedItem(clothes)
+    }
+  }, [itemFilter])
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className='flex flex-row w-full justify-center mt-4 '>
+      <div className='flex flex-col w-9/12 gap-8'>
+        {/* Header Starts */}
+        <div className='flex flex-row justify-center w-full'>
+          <div className='flex flex-col justify-center w-full gap-4'>
+            <div className='flex flex-row justify-between'>
+              <div className='flex flex-col duration-300 border-2 border-transparent hover:border-2 hover:border-black rounded-full p-2 text-3xl'>
+                <IoBagOutline />
+              </div>
+              <div>
+                <Dropdown drop='down' autoClose>
+                  <Dropdown.Toggle id="dropdown-basic" className='flex flex-col duration-300 border-2 border-transparent hover:border-2 hover:border-black rounded-full p-2 text-3xl'>
+                    <AiOutlineUser />
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu className='flex flex-col  border-r-2 border-black px-4 py-4 gap-4'>
+                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="#/profile">Profile</Dropdown.Item>
+                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>
+                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="#/logout">Logout</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+
+              </div>
+            </div>
+            <div className='flex flex-row justify-center'>
+              <Image src={Brand.src} width={Brand.width * 0.25} height={Brand.height * 0.25} alt='' />
+            </div>
+            <div className='flex flex-row w-full border-2 border-black rounded-3xl px-2 text-3xl'>
+              <input
+                value={itemFilter}
+                onChange={(event) => {
+                  setItemFilter(event.currentTarget.value)
+                }}
+                className='flex w-full outline-none my-2 pl-3 pr-2'
+                type='text'
+              />
+              <div className='flex flex-col justify-center'>
+                <IoIosSearch />
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Header Ends*/}
+
+        {/* Body Starts */}
+        <div className='grid grid-cols-1 gap-4 lg:grid-cols-2  xl:grid-cols-3'>
+
+          {displayedItems.length > 0 ?
+            displayedItems.map((item, index) => {
+              return (
+                <div className='flex flex-col border-2 hover:border-black rounded-lg duration-300 ' key={item.title + index}>
+                  <div className='relative aspect-ratio-1/1 h-[600px] hover:bg-white hover:bg-opacity-70 duration-300 flex flex-col justify-center'>
+                    <Image
+                      loading='lazy'
+                      className='-z-10'
+                      layout='fill'
+                      objectFit='cover'
+                      alt={item.title + 'image'}
+                      src={item.images[0].src}
+                    />
+
+                    <div className='flex flex-col opacity-0 hover:opacity-100 duration-300 w-full h-full justify-center p-4'>
+                      <div className='flex flex-row  text-xl font-extrabold justify-stretch w-full'>
+                        {item.title}
+                      </div>
+                      <div className='flex flex-row justify-start  text-xl gap-1'>
+                        <div className='flex flex-col justify-center'>
+                          {Stars(item.star)}
+                        </div>
+                        <div className='flex flex-col justify-center text-lg'>
+                          ({item.starCount})
+                        </div>
+                      </div>
+                      <div className=' text-2xl'>
+                        {item.price} $
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              )
+            })
+            :
+            <div className='col-span-3 flex flex-row w-full justify-center text-4xl animate-spin'>
+              <AiOutlineLoading />
+            </div>
+          }
+
+        </div>
+        {/* Body Ends */}
+        <div>
+
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   )
 }
