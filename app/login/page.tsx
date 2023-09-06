@@ -147,7 +147,7 @@ export default function Login() {
             <button
               type="button"
               className="flex flex-row py-1 justify-center w-full border-2 border-white hover:border-b-black hover:border-b-2 hover:border-t-black hover:border-t-2 text-black duration-200 ease-in"
-              onClick={() => { router.push('/register') }}
+              onClick={() =>  router.push('/register') }
             >
               Register
             </button>

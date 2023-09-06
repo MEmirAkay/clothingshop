@@ -158,7 +158,7 @@ export default function Product() {
                             {
                                 items.map((item) =>
                                     <div key={uuid()} className='flex flex-row justify-between border-2 border-black p-2 rounded-lg'>
-                                        <div className='flex flex-col justify-center w-1/12 h-28  relative aspect-ratio-1/1'>
+                                        <div className='flex flex-col justify-center w-1/12 h-14 md:h-28  relative aspect-ratio-1/1'>
                                             <Image
                                                 loading='lazy'
                                                 className='-z-10'
@@ -168,22 +168,22 @@ export default function Product() {
                                                 src={item.images[0].src}
                                             />
                                         </div>
-                                        <div className='flex flex-col justify-center text-2xl font-extrabold'>
+                                        <div className='flex flex-col justify-center text-xs  md:text-2xl  font-extrabold'>
                                             {item.title}
                                         </div>
-                                        <div className='flex flex-col justify-center text-lg font-bold'>
+                                        <div className='flex flex-col justify-center text-xs md:text-lg font-bold'>
                                             {item.size}
                                         </div>
-                                        <div className='flex flex-col justify-center text-lg '>
+                                        <div className='flex flex-col justify-center text-xs md:text-lg '>
                                             {item.price} $
                                         </div>
 
-                                        <div className='flex flex-col justify-center  '>
+                                        <div className='flex flex-col justify-center text-xs md:text-base '>
                                             {item.count} piece
 
                                         </div>
                                         <div className='flex flex-col justify-center '>
-                                            <div className='flex flex-col justify-center text-3xl hover:text-red-500'>
+                                            <div className='flex flex-col justify-center text-xl md:text-3xl hover:text-red-500'>
                                                 <MdDeleteOutline />
                                             </div>
                                         </div>
@@ -191,7 +191,7 @@ export default function Product() {
                                 )
                             }
 
-                            <div className='flex flex-row justify-between w-full'>
+                            <div className='flex flex-col md:flex-row justify-between w-full gap-4 md:gap-0'>
                                 <div className='flex flex-row justify-start gap-4 border-b-2 border-black'>
                                     <div className='flex flex-col justify-center text-2xl font-extrabold'>
                                         Total:
@@ -208,7 +208,7 @@ export default function Product() {
                                         setItems(undefined);
                                         setAlert(true)
                                     }}
-                                    className='flex flex-col justify-center border-2 rounded-md px-6 border-green-400 text-xl font-bold text-green-500 hover:bg-green-400 hover:text-white duration-300'>
+                                    className='flex flex-row justify-center border-2 rounded-md px-6 border-green-400 text-xl font-bold text-green-500 hover:bg-green-400 hover:text-white duration-300'>
                                     Pay
                                 </button>
                             </div>

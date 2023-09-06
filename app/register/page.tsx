@@ -32,7 +32,9 @@ export default function Login() {
 
     sessionStorage.setItem('username', form.username)
     sessionStorage.setItem('password', form.password)
+    
     setValidated(true);
+    return router.push('/login')
   };
 
   useEffect(() => {
