@@ -50,11 +50,6 @@ function Stars(star: number) {
 }
 
 export default function Product() {
-
-  const [storage, setStorage] = useState<Storage>();
-  useEffect(() => {
-    setStorage(sessionStorage)
-  }, [])
   const router = useRouter()
   const params = useParams()
   const [item, setItem] = useState<{
@@ -90,8 +85,8 @@ export default function Product() {
   const [card, setCard] = useState<any>([])
 
   useEffect(() => {
-    if (storage?.getItem('card') != null) {
-      setCard(JSON.parse(storage?.getItem('card') as string))
+    if (sessionStorage.getItem('card') != null) {
+      setCard(JSON.parse(sessionStorage.getItem('card') as string))
     }
   }, [])
 
@@ -115,13 +110,13 @@ export default function Product() {
 
   function handleChangeCard() {
 
-    var CardItems = card
+    var CardItems=card
     CardItems.push({
       id: uuid(),
       title: item?.title,
       price: item?.price,
       images: item?.images,
-      size: selectedSize
+      size:selectedSize
     })
 
     setCard(CardItems)
@@ -162,9 +157,9 @@ export default function Product() {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu className='flex flex-col  border-r-2 border-black px-4 py-4 gap-4'>
-                    {storage?.getItem('currentUser') && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {storage.getItem('currentUser')}</Dropdown.Item>}
+                    {sessionStorage.getItem('currentUser') && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {sessionStorage.getItem('currentUser')}</Dropdown.Item>}
                     <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>
-                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent ' onClick={() => { storage?.removeItem('currentUser'), storage?.removeItem('card'), router.push('/') }}>Logout</Dropdown.Item>
+                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent ' onClick={() => { sessionStorage.removeItem('currentUser'), sessionStorage.removeItem('card'), router.push('/') }}>Logout</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
 
@@ -222,6 +217,7 @@ export default function Product() {
                 <div className='flex flex-row gap-2 w-full text-center'>
                   {sizes.map(item =>
                     <div
+                    key={uuid()}
                       className={`flex flex-col w-full border-2 p-2 rounded-md hover:border-gray-200 duration-300 ${item == selectedSize && 'border-black'}`}
                       onClick={() => {
                         changeSelectedSize(item)

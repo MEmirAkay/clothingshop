@@ -8,11 +8,10 @@ import { useRouter } from "next/navigation";
 import { IoHomeSharp } from "react-icons/io5"
 
 export default function Login() {
-  const [storage, setStorage] = useState<Storage>();
+  const [currentUser, setCurrentUser] = useState<any>()
   useEffect(() => {
-    setStorage(sessionStorage)
-  }, [])
-  useEffect(() => {
+    setCurrentUser(sessionStorage.getItem('currentUser'))
+
     if (sessionStorage.getItem('currentUser')) {
       router.push('/')
     }
@@ -27,6 +26,10 @@ export default function Login() {
     password: false
   })
 
+  const [usernameCheck, setUsernameCheck] = useState<any>();
+  const [passwordCheck, setPasswordCheck] = useState<any>();
+
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const formX = event.currentTarget;
 
@@ -36,7 +39,13 @@ export default function Login() {
       event.stopPropagation();
       return
     }
-    if (form.username == sessionStorage.getItem('username') && form.password == sessionStorage.getItem('password')) {
+
+    if (sessionStorage) {
+      setUsernameCheck(sessionStorage.getItem('username') as string)
+      setPasswordCheck(sessionStorage.getItem('password') as string)
+    }
+
+    if (form.username == usernameCheck && form.password == passwordCheck) {
       sessionStorage.setItem('currentUser', form.username)
       sessionStorage.setItem('card', JSON.stringify([]))
       router.push('/')
@@ -68,7 +77,7 @@ export default function Login() {
   return (
     < div className="flex flex-row w-full justify-center" >
       {
-        sessionStorage.getItem('currentUser')==undefined
+        !currentUser
           ?
           <div className='flex flex-col h-screen justify-center gap-4'>
             <div className="flex flex-row">

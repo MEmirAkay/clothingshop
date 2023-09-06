@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useParams } from 'next/navigation'
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import { Session } from 'inspector'
 function FilledStar(star: number) {
     var arr = []
 
@@ -50,43 +51,16 @@ function Stars(star: number) {
 }
 
 export default function Product() {
-    const [storage, setStorage] = useState<Storage>();
-    useEffect(() => {
-        setStorage(sessionStorage)
-    }, [])
     const router = useRouter()
     const params = useParams()
-    const [item, setItem] = useState<{
-        id: string;
-        title: string;
-        price: string;
-        star: number;
-        starCount: number;
-        images: StaticImageData[];
-    }>();
-    const [sizes, setSizes] = useState<{
-        size: string,
-    }[]>([
-        {
-            size: 'S',
-        },
-        {
-            size: 'M',
-        },
-        {
-            size: 'L',
-        },
-        {
-            size: 'XL',
-        },
-        {
-            size: '2XL',
-        },
-        {
-            size: '3XL',
-        }
-    ]);
-
+    const [items, setItems] = useState<{
+        id: string,
+        title: string,
+        price: string,
+        images: StaticImageData[],
+        size: string
+    }[]>();
+    const [currentUser, setCurrentUser] = useState<any>();
     const [selectedSize, setSelectedSize] = useState<{
         size: string,
     }>({
@@ -100,10 +74,11 @@ export default function Product() {
     }
 
     useEffect(() => {
-        if (params.id) {
-            setItem(clothes.find(item => item.id == params.id))
+        if (sessionStorage) {
+            setItems(JSON.parse(sessionStorage.getItem('card') as string))
+            setCurrentUser(sessionStorage.getItem('currentUser') as string)
         }
-    }, [params.id])
+    }, [])
 
     return (
         <div className='flex flex-row w-full justify-center mt-4 '>
@@ -139,9 +114,26 @@ export default function Product() {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu className='flex flex-col  border-r-2 border-black px-4 py-4 gap-4'>
-                                        {sessionStorage.getItem('currentUser') && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {sessionStorage.getItem('currentUser')}</Dropdown.Item>}
+                                        {
+                                          
+                                            currentUser ?
+                                                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>
+                                                        {currentUser}
+                                                    </Dropdown.Item>
+                                                    :
+                                                    <></>
+                                
+                                        }
                                         <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>
-                                        <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-red-500 border-transparent ' onClick={() => { sessionStorage.removeItem('currentUser'), sessionStorage.removeItem('card'), router.push('/') }}>Logout</Dropdown.Item>
+                                        <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-red-500 border-transparent '
+                                            onClick={() => {
+                                                if (sessionStorage) {
+                                                    currentUser
+                                                    items
+                                                    router.push('/')
+                                                }
+                                            }
+                                            }>Logout</Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
 
@@ -157,7 +149,7 @@ export default function Product() {
 
                 {/* Body Starts */}
                 {
-                    item
+                    items
                         ?
                         <div className='flex flex-col'>
                             <div className='flex flex-row'>
