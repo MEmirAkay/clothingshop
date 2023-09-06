@@ -6,7 +6,7 @@ import { IoBagOutline } from 'react-icons/io5'
 import { AiOutlineUser, AiFillStar, AiOutlineStar, AiOutlineLoading } from 'react-icons/ai'
 import { Dropdown } from 'react-bootstrap'
 import clothes from '@/public/clothes/clothes'
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -100,33 +100,21 @@ export default function Home() {
               <div onClick={() => router.push('/card')} className='flex flex-col duration-300 border-2 border-transparent hover:border-2 hover:border-black rounded-full p-2 text-3xl'>
                 <IoBagOutline />
               </div>
-              <div>
-                <Dropdown drop='down' autoClose className='duration-300 border-2 border-transparent hover:border-black rounded-full'>
-                  <Dropdown.Toggle
-                    variant=''
-                    bsPrefix='none'
-                    split
-                    id="dropdown-basic"
-                    className='flex flex-col aria-expanded:border-none focus:outline-none outline-none !border-none focus:border-none '>
-                    <div className='text-3xl'>
-                      <AiOutlineUser />
-                     
-                    </div>
-                  </Dropdown.Toggle>
+             
+                
 
-                  <Dropdown.Menu className='flex flex-col  border-r-2 border-black px-4 py-4 gap-4'>
-                  {currentUser && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {currentUser}</Dropdown.Item>}
-                  {!currentUser &&   <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>}
-                  {currentUser &&  <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent ' 
-                  onClick={()=>{
-                    sessionStorage.removeItem('currentUser'); 
-                    sessionStorage.removeItem('card'); 
-                    setCurrentUser(undefined)
-                    }}>Logout</Dropdown.Item>}
-                  </Dropdown.Menu>
-                </Dropdown>
+                  <div className='flex flex-col px-4 py-4 gap-4'>
+                    {!currentUser && <a className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent decoration-none' href="/login">Login</a>}
+                    {currentUser && <div className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent '
+                      onClick={() => {
+                        sessionStorage.removeItem('currentUser');
+                        sessionStorage.removeItem('card');
+                        setCurrentUser(undefined)
+                      }}>Logout</div>}
+                  </div>
+             
 
-              </div>
+             
             </div>
             <div className='flex flex-row justify-center'>
               <Image src={Brand.src} width={Brand.width * 0.25} height={Brand.height * 0.25} alt='' />
