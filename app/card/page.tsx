@@ -104,6 +104,9 @@ export default function Product() {
             return () => clearInterval(id);
         }
     }, [alert])
+    useEffect(() => {
+        router.refresh()
+    }, [currentUser])
 
     return (
         <div className='flex flex-row w-full justify-center mt-4 '>
@@ -139,26 +142,14 @@ export default function Product() {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu className='flex flex-col  border-r-2 border-black px-4 py-4 gap-4'>
-                                        {
-
-                                            currentUser ?
-                                                <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>
-                                                    {currentUser}
-                                                </Dropdown.Item>
-                                                :
-                                                <></>
-
-                                        }
-                                        <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>
-                                        <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-red-500 border-transparent '
+                                        {currentUser && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {currentUser}</Dropdown.Item>}
+                                        {!currentUser && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>}
+                                        {currentUser && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent '
                                             onClick={() => {
-                                                if (sessionStorage) {
-                                                    currentUser
-                                                    items
-                                                    router.push('/')
-                                                }
-                                            }
-                                            }>Logout</Dropdown.Item>
+                                                sessionStorage.removeItem('currentUser');
+                                                sessionStorage.removeItem('card');
+                                                setCurrentUser(undefined)
+                                            }}>Logout</Dropdown.Item>}
                                     </Dropdown.Menu>
                                 </Dropdown>
 
@@ -242,7 +233,7 @@ export default function Product() {
                             {
                                 alert &&
                                 <Alert variant={'success'}>
-                                   Your order has been received successfully
+                                    Your order has been received successfully
                                 </Alert>
                             }
                             <div className='flex flex-row justify-center'>

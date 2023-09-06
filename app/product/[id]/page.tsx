@@ -13,6 +13,7 @@ import { useParams } from 'next/navigation'
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { count } from 'console'
+
 function FilledStar(star: number) {
   var arr = []
 
@@ -156,9 +157,13 @@ export default function Product() {
       const id = setInterval(() => {
         setAlert(false)
       }, 3000);
-      return () =>  clearInterval(id) ;
+      return () => clearInterval(id);
     }
   }, [alert])
+  useEffect(() => {
+    router.refresh()
+  }, [currentUser])
+
 
   return (
     <div className='flex flex-row w-full justify-center mt-4 '>
@@ -194,9 +199,14 @@ export default function Product() {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu className='flex flex-col  border-r-2 border-black px-4 py-4 gap-4'>
-                    {currentUser && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {currentUser}</Dropdown.Item>}
-                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>
-                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent ' onClick={() => { sessionStorage.removeItem('currentUser'), sessionStorage.removeItem('card'), router.push('/') }}>Logout</Dropdown.Item>
+                  {currentUser && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {currentUser}</Dropdown.Item>}
+                  {!currentUser &&   <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>}
+                  {currentUser &&  <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent ' 
+                  onClick={()=>{
+                    sessionStorage.removeItem('currentUser'); 
+                    sessionStorage.removeItem('card'); 
+                    setCurrentUser(undefined)
+                    }}>Logout</Dropdown.Item>}
                   </Dropdown.Menu>
                 </Dropdown>
 
@@ -283,15 +293,21 @@ export default function Product() {
                   </Alert>
                 }
                 <div className='flex flex-row'>
-                  <button onClick={() => handleChangeCard()} className='flex flex-row gap-2 border-2 border-black p-2 rounded-md hover:bg-black hover:text-white duration-300'>
-                    <div className='flex flex-col justify-center text-2xl'>
-                      <IoBasketOutline />
+                  {
+                    currentUser ?
+                    <button onClick={() => handleChangeCard()} className='flex flex-row gap-2 border-2 border-black p-2 rounded-md hover:bg-black hover:text-white duration-300'>
+                      <div className='flex flex-col justify-center text-2xl'>
+                        <IoBasketOutline />
+                      </div>
+                      <div className='flex flex-col justify-center'>
+                        Add to Card
+                      </div>
+                    </button>
+                    :
+                    <div className='text-gray-300'>
+                      Please login for buy
                     </div>
-
-                    <div className='flex flex-col justify-center'>
-                      Add to Card
-                    </div>
-                  </button>
+                  }
                 </div>
 
               </div>

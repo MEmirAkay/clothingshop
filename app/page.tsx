@@ -6,6 +6,7 @@ import { IoBagOutline } from 'react-icons/io5'
 import { AiOutlineUser, AiFillStar, AiOutlineStar, AiOutlineLoading } from 'react-icons/ai'
 import { Dropdown } from 'react-bootstrap'
 import clothes from '@/public/clothes/clothes'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -73,6 +74,10 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
+    router.refresh()
+  }, [currentUser])
+
+  useEffect(() => {
 
     if (itemFilter != "") {
 
@@ -112,7 +117,12 @@ export default function Home() {
                   <Dropdown.Menu className='flex flex-col  border-r-2 border-black px-4 py-4 gap-4'>
                   {currentUser && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {currentUser}</Dropdown.Item>}
                   {!currentUser &&   <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>}
-                  {currentUser &&  <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent ' onClick={()=>(sessionStorage.removeItem('currentUser'), sessionStorage.removeItem('card'), router.refresh())}>Logout</Dropdown.Item>}
+                  {currentUser &&  <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent ' 
+                  onClick={()=>{
+                    sessionStorage.removeItem('currentUser'); 
+                    sessionStorage.removeItem('card'); 
+                    setCurrentUser(undefined)
+                    }}>Logout</Dropdown.Item>}
                   </Dropdown.Menu>
                 </Dropdown>
 
