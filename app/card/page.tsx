@@ -130,7 +130,7 @@ export default function Product() {
                                 </div>
 
                                 <div className='flex flex-col px-4 py-4 gap-4'>
-                    {!currentUser && <a className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent decoration-none' href="/login">Login</a>}
+                                {!currentUser && <div className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent decoration-none' onClick={()=>{router.push('/login')}} >Login</div>}
                     {currentUser && <div className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent '
                       onClick={() => {
                         sessionStorage.removeItem('currentUser');
