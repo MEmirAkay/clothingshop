@@ -15,7 +15,7 @@ const clothes = [
   {
     id: '1',
     title: "Sweater Navy blue-white",
-    price: "19,90",
+    price: "19.90",
     star: 4,
     starCount: 124,
     images: [clothe1, clothe1_2],
@@ -23,7 +23,7 @@ const clothes = [
   {
     id: '2',
     title: "Red-White Striped Shirt",
-    price: "9,90",
+    price: "9.90",
     star: 2,
     starCount: 124,
     images: [clothe2],
@@ -31,7 +31,7 @@ const clothes = [
   {
     id: '3',
     title: "Black Coat",
-    price: "59,90",
+    price: "59.90",
     star: 4,
     starCount: 214,
     images: [clothe3],
@@ -39,7 +39,7 @@ const clothes = [
   {
     id: '4',
     title: "Red-Burgundy Shirt",
-    price: "9,90",
+    price: "9.90",
     star: 4,
     starCount: 164,
     images: [clothe4],
@@ -47,7 +47,7 @@ const clothes = [
   {
     id: '5',
     title: "Navy Blue-Yellow Shirt",
-    price: "9,90",
+    price: "9.90",
     star: 2,
     starCount: 12,
     images: [clothe5],
@@ -55,7 +55,7 @@ const clothes = [
   {
     id: '6',
     title: "White-Aqua Shirt",
-    price: "9,90",
+    price: "9.90",
     star: 1,
     starCount: 23,
     images: [clothe6],
@@ -63,7 +63,7 @@ const clothes = [
   {
     id: '7',
     title: "Red Coat",
-    price: "59,90",
+    price: "59.90",
     star: 4,
     starCount: 124,
     images: [clothe7, clothe7_2],
@@ -71,7 +71,7 @@ const clothes = [
   {
     id: '8',
     title: "Navy Blue Jacket",
-    price: "59,90",
+    price: "59.90",
     star: 4,
     starCount: 124,
     images: [clothe8, clothe8_2],
@@ -79,7 +79,7 @@ const clothes = [
   {
     id: '9',
     title: "Khaki Shirt",
-    price: "59,90",
+    price: "59.90",
     star: 4,
     starCount: 124,
     images: [clothe9],
@@ -87,7 +87,7 @@ const clothes = [
   {
     id: '10',
     title: "Gray Hood",
-    price: "59,90",
+    price: "59.90",
     star: 4,
     starCount: 124,
     images: [clothe10],
