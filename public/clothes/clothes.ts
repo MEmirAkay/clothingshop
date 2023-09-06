@@ -13,7 +13,7 @@ import clothe9 from "../clothes/9/9.jpg";
 import clothe10 from "../clothes/10/10.jpg";
 const clothes = [
   {
-    id: 1,
+    id: '1',
     title: "Sweater Navy blue-white",
     price: "19,90",
     star: 4,
@@ -21,7 +21,7 @@ const clothes = [
     images: [clothe1, clothe1_2],
   },
   {
-    id: 2,
+    id: '2',
     title: "Red-White Striped Shirt",
     price: "9,90",
     star: 2,
@@ -29,7 +29,7 @@ const clothes = [
     images: [clothe2],
   },
   {
-    id: 3,
+    id: '3',
     title: "Black Coat",
     price: "59,90",
     star: 4,
@@ -37,7 +37,7 @@ const clothes = [
     images: [clothe3],
   },
   {
-    id: 4,
+    id: '4',
     title: "Red-Burgundy Shirt",
     price: "9,90",
     star: 4,
@@ -45,7 +45,7 @@ const clothes = [
     images: [clothe4],
   },
   {
-    id: 5,
+    id: '5',
     title: "Navy Blue-Yellow Shirt",
     price: "9,90",
     star: 2,
@@ -53,7 +53,7 @@ const clothes = [
     images: [clothe5],
   },
   {
-    id: 6,
+    id: '6',
     title: "White-Aqua Shirt",
     price: "9,90",
     star: 1,
@@ -61,7 +61,7 @@ const clothes = [
     images: [clothe6],
   },
   {
-    id: 7,
+    id: '7',
     title: "Red Coat",
     price: "59,90",
     star: 4,
@@ -69,7 +69,7 @@ const clothes = [
     images: [clothe7, clothe7_2],
   },
   {
-    id: 8,
+    id: '8',
     title: "Navy Blue Jacket",
     price: "59,90",
     star: 4,
@@ -77,7 +77,7 @@ const clothes = [
     images: [clothe8, clothe8_2],
   },
   {
-    id: 9,
+    id: '9',
     title: "Khaki Shirt",
     price: "59,90",
     star: 4,
@@ -85,7 +85,7 @@ const clothes = [
     images: [clothe9],
   },
   {
-    id: 10,
+    id: '10',
     title: "Gray Hood",
     price: "59,90",
     star: 4,

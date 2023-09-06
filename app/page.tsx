@@ -7,6 +7,8 @@ import { AiOutlineUser, AiFillStar, AiOutlineStar, AiOutlineLoading } from 'reac
 import { Dropdown } from 'react-bootstrap'
 import clothes from '@/public/clothes/clothes'
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 function FilledStar(star: number) {
   var arr = []
@@ -49,9 +51,9 @@ function Stars(star: number) {
 export default function Home() {
 
   const [itemFilter, setItemFilter] = useState("")
-
+  const router = useRouter()
   const [displayedItems, setDisplayedItem] = useState<{
-    id: number,
+    id: string,
     title: string,
     price: string,
     star: number,
@@ -83,19 +85,27 @@ export default function Home() {
         <div className='flex flex-row justify-center w-full'>
           <div className='flex flex-col justify-center w-full gap-4'>
             <div className='flex flex-row justify-between'>
-              <div className='flex flex-col duration-300 border-2 border-transparent hover:border-2 hover:border-black rounded-full p-2 text-3xl'>
+              <div onClick={() => router.push('/card')} className='flex flex-col duration-300 border-2 border-transparent hover:border-2 hover:border-black rounded-full p-2 text-3xl'>
                 <IoBagOutline />
               </div>
               <div>
-                <Dropdown drop='down' autoClose>
-                  <Dropdown.Toggle id="dropdown-basic" className='flex flex-col duration-300 border-2 border-transparent hover:border-2 hover:border-black rounded-full p-2 text-3xl'>
-                    <AiOutlineUser />
+                <Dropdown drop='down' autoClose className='duration-300 border-2 border-transparent hover:border-black rounded-full'>
+                  <Dropdown.Toggle
+                    variant=''
+                    bsPrefix='none'
+                    split
+                    id="dropdown-basic"
+                    className='flex flex-col aria-expanded:border-none focus:outline-none outline-none !border-none focus:border-none '>
+                    <div className='text-3xl'>
+                      <AiOutlineUser />
+                     
+                    </div>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu className='flex flex-col  border-r-2 border-black px-4 py-4 gap-4'>
-                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="#/profile">Profile</Dropdown.Item>
-                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>
-                    <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="#/logout">Logout</Dropdown.Item>
+                  {sessionStorage.getItem('currentUser') && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {sessionStorage.getItem('currentUser')}</Dropdown.Item>}
+                  {!sessionStorage.getItem('currentUser') &&   <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>}
+                  {sessionStorage.getItem('currentUser') &&  <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent ' onClick={()=>(sessionStorage.removeItem('currentUser'), sessionStorage.removeItem('card'), router.refresh())}>Logout</Dropdown.Item>}
                   </Dropdown.Menu>
                 </Dropdown>
 
@@ -127,7 +137,7 @@ export default function Home() {
           {displayedItems.length > 0 ?
             displayedItems.map((item, index) => {
               return (
-                <div className='flex flex-col border-2 hover:border-black rounded-lg duration-300 ' key={item.title + index}>
+                <Link href={`/product/${item.id}`} className='flex flex-col border-2 hover:border-black rounded-lg duration-300 ' key={item.title + index}>
                   <div className='relative aspect-ratio-1/1 h-[600px] hover:bg-white hover:bg-opacity-70 duration-300 flex flex-col justify-center'>
                     <Image
                       loading='lazy'
@@ -157,7 +167,7 @@ export default function Home() {
 
                   </div>
 
-                </div>
+                </Link>
               )
             })
             :
