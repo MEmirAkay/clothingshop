@@ -8,7 +8,10 @@ import { useRouter } from "next/navigation";
 import { IoHomeSharp } from "react-icons/io5"
 
 export default function Login() {
-
+  const [storage, setStorage] = useState<Storage>();
+  useEffect(() => {
+    setStorage(sessionStorage)
+  }, [])
   useEffect(() => {
     if (sessionStorage.getItem('currentUser')) {
       router.push('/')

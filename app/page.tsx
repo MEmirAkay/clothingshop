@@ -49,7 +49,10 @@ function Stars(star: number) {
 
 
 export default function Home() {
-
+  const [storage, setStorage] = useState<Storage>();
+  useEffect(() => {
+    setStorage(sessionStorage)
+  }, [])
   const [itemFilter, setItemFilter] = useState("")
   const router = useRouter()
   const [displayedItems, setDisplayedItem] = useState<{
@@ -103,9 +106,9 @@ export default function Home() {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu className='flex flex-col  border-r-2 border-black px-4 py-4 gap-4'>
-                  {sessionStorage.getItem('currentUser') && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {sessionStorage.getItem('currentUser')}</Dropdown.Item>}
-                  {!sessionStorage.getItem('currentUser') &&   <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>}
-                  {sessionStorage.getItem('currentUser') &&  <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent ' onClick={()=>(sessionStorage.removeItem('currentUser'), sessionStorage.removeItem('card'), router.refresh())}>Logout</Dropdown.Item>}
+                  {storage?.getItem('currentUser') && <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent '>  {storage?.getItem('currentUser')}</Dropdown.Item>}
+                  {!storage?.getItem('currentUser') &&   <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:border-black border-transparent ' href="/login">Login</Dropdown.Item>}
+                  {storage?.getItem('currentUser') &&  <Dropdown.Item className='duration-300 hover:border-b-2 border-b-2 hover:hover:border-red-500 border-transparent ' onClick={()=>(storage?.removeItem('currentUser'), storage?.removeItem('card'), router.refresh())}>Logout</Dropdown.Item>}
                   </Dropdown.Menu>
                 </Dropdown>
 
